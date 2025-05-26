@@ -18,15 +18,17 @@ class PostController extends AbstractController
     public function displaySpeedrunDetails(
         int $id,
         CommentRepository $commentRepository,
-        PostRepository $postRepository
+        PostRepository $postRepository,
+        UserRepository $userRepository
     ) {
         // Récupération du post
         $post = $postRepository->find($id);
+        $user = $userRepository->find($id);
 
         // Récupération des commentaires liés uniquement à CE post
         $comments = $commentRepository->findBy(['post' => $post]);
 
-        return $this->render('guest/show-speedrun.html.twig', ['activity' => $post->getActivity(), 'comments' => $comments, 'post'=>$post]);
+        return $this->render('guest/show-speedrun.html.twig', ['activity' => $post->getActivity(), 'comments' => $comments, 'post'=>$post, 'user'=>$user]);
     }
 
     #[Route('/redirect/speedrun/{category}/{activity}', name: 'redirect-speedrun', methods: ['GET'])]

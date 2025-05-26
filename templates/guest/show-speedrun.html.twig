@@ -61,7 +61,7 @@
 					</div>
 					<div class="box">
 						<p>Plateforme :</p>
-						<p>{{ post.platform }}</p>
+						<p>{{ post.platformLabel }}</p>
 					</div>
 				</div>
 
@@ -69,7 +69,7 @@
 					<h4>Détails</h4>
 					<div class="box">
 						<p>Joueur(s) :</p>
-						<p>{{ post.user.username }}</p>
+						<p><a href="{{ path('detail-user', {'id':post.user.id}) }}">{{ post.user.username }}</a></p>
 					</div>
 					<div class="box">
 						<p>Vérifié par :</p>

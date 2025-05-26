@@ -35,8 +35,8 @@ class Post
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
-    
-    #[ORM\Column(length: 255, nullable:true)]
+
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $platform = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -60,7 +60,7 @@ class Post
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post')]
     private Collection $comments;
 
-    
+
 
     public function __construct($title, $videoUrl, $videoDuration, $description, $platform, $expansion, $activity)
     {
@@ -75,6 +75,15 @@ class Post
         $this->activity = $activity;
 
         $this->publicationDate = new \DateTime();
+    }
+
+    public function getPlatformLabel(): string
+    {
+        return match ($this->platform) {
+            'pc' => '🪟 PC',
+            'xbox' => '🅧 Xbox',
+            'ps' => '🎮 PlayStation',
+        };
     }
 
     public function getId(): ?int
