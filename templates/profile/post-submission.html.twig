@@ -1,0 +1,64 @@
+{% extends 'profile/base.html.twig' %}
+
+{% block metatitle %}Soumettez une run !
+{% endblock %}
+
+{% block main %}
+	<section class="profile-main-div">
+		<h2>Soumets ta run {{ app.user.username }} !</h2>
+
+		<form method="POST" action="{{ path('submit-post') }}" class="submit-post-form">
+			<div class="form-group">
+				<label for="title">Titre :</label>
+				<input type="text" id="title" name="title">
+			</div>
+
+			<div class="form-group">
+				<label for="video_url">ID de la vidéo (partager->intégrer->src->/embed/ID):</label>
+				<input type="text" id="video_url" name="video_url">
+			</div>
+
+			<div class="form-group">
+				<label for="video_duration">Durée (HH:MM:SS) :</label>
+				{# step="1" permet de faire la saisie des secondes #}
+				<input type="time" id="video_duration" name="video_duration" step="1">
+			</div>
+
+			<div class="form-group">
+				<label for="description">Description :</label>
+				<textarea id="description" name="description"></textarea>
+			</div>
+
+			<div class="form-group">
+				<label for="platform">Plateforme :</label>
+				<select name="platform" id="platform">
+                    <option value="" disabled selected>-- Choisissez votre plateforme --</option>
+                    <option value="pc">🪟 PC</option>
+                    <option value="xbox">🅧 Xbox</option>
+                    <option value="ps">🎮 PlayStation</option>
+                </select>
+			</div>
+
+			<div class="form-group">
+				<label for="expansion">Extension :</label>
+				<input type="text" id="expansion" name="expansion">
+			</div>
+
+			<div class="form-group">
+				<label for="activity">Activité :</label>
+				<select id="activity" name="activity">
+					<option value="" disabled selected>-- Choisissez votre activité --</option>
+					{% for category in categories %}
+						<optgroup label="{{ category.name }}">
+							{% for activity in category.activities %}
+								<option value="{{ activity.id }}">{{ activity.name }}</option>
+							{% endfor %}
+						</optgroup>
+					{% endfor %}
+				</select>
+			</div>
+
+			<button type="submit">Soumettre</button>
+		</form>
+	</section>
+{% endblock %}

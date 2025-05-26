@@ -35,11 +35,11 @@
 						<a href="#">Historique</a>
 					</li>
 					{% if app.user %}
-						{# <li>
-																																					<a href="{{ path('form-submission') }}">
-																																						<button type="submit">Soumettre une vidéo</button>
-																																					</a>
-																																				</li> #}
+						<li>
+							<a href="{{ path('submit-post') }}">
+								<button type="submit" class="btn-video-submit">Soumettre une vidéo</button>
+							</a>
+						</li>
 					{% else %}
 						<li>
 							<a href="{{ path('login') }}">
@@ -65,14 +65,18 @@
 
 					<tbody class="ranking-body">
 						{% for post in posts %}
+							{% if post.verified %}
 							<tr class="clickable-row" data-href="{{ path('show-speedrun', {'id': post.id}) }}">
 								<td>{{ loop.index }}</td>
-								<td>{{ post.user.username }}</td>
+								<td class="username-player">
+								<a href="{{ path('detail-user', {'id':post.user.id}) }}">{{ post.user.username }}</a>
+								</td>
 								<td>{{ post.videoDuration | date('H:i:s')}}</td>
 								<td>{{ post.publicationDate|date('d/m/Y') }}</td>
 								<td>{{ post.platform }}</td>
 								<td>{{ post.expansion }}</td>
 							</tr>
+							{% endif %}
 						{% endfor %}
 					</tbody>
 				</table>

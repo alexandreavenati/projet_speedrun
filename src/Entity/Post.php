@@ -62,9 +62,19 @@ class Post
 
     
 
-    public function __construct()
+    public function __construct($title, $videoUrl, $videoDuration, $description, $platform, $expansion, $activity)
     {
         $this->comments = new ArrayCollection();
+
+        $this->title = $title;
+        $this->video_url = $videoUrl;
+        $this->video_duration = $videoDuration;
+        $this->description = $description;
+        $this->platform = $platform;
+        $this->expansion = $expansion;
+        $this->activity = $activity;
+
+        $this->publicationDate = new \DateTime();
     }
 
     public function getId(): ?int
