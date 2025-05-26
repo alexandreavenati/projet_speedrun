@@ -1,0 +1,41 @@
+{% extends 'profile/base.html.twig' %}
+
+{% block metatitle %}Personnalisation du profil{% endblock metatitle %}
+
+{% block main %}
+
+    <section class="profile-main-div">
+    
+        <h2 class="nickname">Personnalise ton profil {{ user.username }} !</h2>
+
+        <form method="POST" class="profile-form" enctype="multipart/form-data">
+        
+            <div class="form-group">
+                <label for="update-username">Nom d'utilisateur :</label>
+                <input type="text" name="update-username" value="{{ user.username }}">
+            </div>
+
+            <div class="form-group">
+                <label for="update-image">Image de profil :</label>
+                <input type="file" name="update-image" {% if user.image %} value="{{ user.image }}"{% endif %}>
+            </div>
+
+             <div class="form-group">
+                <label for="update-bio">Biographie de profil :</label>
+                <textarea name="update-bio" id="bio" placeholder="Ajoutez une bio !!!">{% if user.bio %}{{ user.bio }}{% endif %}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="_password">Mot de passe :</label>
+                <input type="password" name="_password">
+            </div>
+
+            <div>
+                <button type="submit">Enregistrer</button>
+            </div>
+
+        </form>
+
+    </section>
+
+{% endblock main %}

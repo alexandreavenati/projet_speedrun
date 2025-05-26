@@ -1,0 +1,27 @@
+{% extends 'profile/base.html.twig' %}
+
+{% block metatitle %}Votre Profil
+{% endblock metatitle %}
+
+{% block main %}
+	<section class="profile-main-div">
+		<h2 class="nickname">Bonjour {{ user.username }}</h2>
+
+		<div class="account-information">
+			{% if user.image %}
+				<div class="account-image"><img src="{{ asset('uploads/' ~ user.image) }}" alt="Photo de profil"></div>
+			{% endif %}
+			<h4 class="account-email">Votre email : {{ user.email }}</h4>
+
+			<h4 class="bio">Votre bio :</h4>
+			{# Le filtre nl2br (new line to break) convertit chaque retour à la ligne (\n) en balise <br> #}
+			<p>{{ user.bio | nl2br }}</p>
+		</div>
+
+		<div>
+			<p class="update-account"><a href="{{ path('update-profile') }}">✏️ Modifier le profil</a></p>
+			<p class="delete-account"><a href="{{ path('delete-profile', {'id':'user.id'}) }}">🗑️ Supprimer</a></p>
+		</div>
+
+	</section>
+{% endblock main %}

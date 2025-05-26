@@ -1,0 +1,98 @@
+{% extends 'guest/base.html.twig' %}
+
+{% block metatitle %}Destiny 2 Speedrun : Archives
+{% endblock metatitle %}
+
+{% block main %}
+
+	{% include 'guest/partial/_game-info-section.html.twig' %}
+
+	<section class="guest-main-section">
+		<div class="main-div">
+			<div class="path-section">
+				<p class="path-links">
+					<a href="{{ path('home') }}">Tableaux de bord</a>
+					/
+					<a href="{{ path('redirect-speedrun', { category: activity.category.id, activity: activity.id }) }}">
+						{{ activity.name }}
+					</a>
+				</p>
+
+				<p>{{ activity.name }}
+					en
+					{{ post.videoDuration | date('H:i:s') }}</p>
+
+				<div class="video">
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/{{ post.videoUrl }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+				</div>
+			</div>
+
+			<div class="section description">
+				<h3>Description</h3>
+				<p>{{ post.description }}</p>
+			</div>
+
+			<div class="grid">
+				<div class="section">
+					<h4>Activité</h4>
+					<div class="box">
+						<p>Catégorie :</p>
+						<p>{{ post.activity.category.name }}</p>
+					</div>
+					<div class="box">
+						<p>Expansion :</p>
+						<p>{{ post.expansion }}</p>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>Informations</h4>
+					<div class="box">
+						<p>Classement :</p>
+						<p></p>
+					</div>
+					<div class="box">
+						<p>Temps :</p>
+						<p>{{ post.videoDuration | date('H:i:s') }}</p>
+					</div>
+					<div class="box">
+						<p>Date :</p>
+						<p>{{ post.publicationDate | date('d/m/Y') }}</p>
+					</div>
+					<div class="box">
+						<p>Plateforme :</p>
+						<p>{{ post.platform }}</p>
+					</div>
+				</div>
+
+				<div class="section">
+					<h4>Détails</h4>
+					<div class="box">
+						<p>Joueur(s) :</p>
+						<p>{{ post.user.username }}</p>
+					</div>
+					<div class="box">
+						<p>Vérifié par :</p>
+						<p></p>
+					</div>
+					<div class="box">
+						<p>Soumis :</p>
+						<p>{{ post.publicationDate | date('d/m/Y') }}</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="section comments">
+				<h3>Commentaires</h3>
+				{% for comment in comments %}
+					<div class="comment">
+						<p>{{ comment.user.username }} – <span>{{ comment.createdAt|date('d/m/Y H:i') }}</span></p>
+						<p>{{ comment.content }}</p>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+
+		{% include 'guest/partial/_side-boxes.html.twig' %}
+	</section>
+{% endblock main %}

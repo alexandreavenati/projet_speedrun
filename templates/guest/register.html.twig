@@ -1,0 +1,33 @@
+{% extends 'guest/base.html.twig' %}
+
+{% block metatitle %}Inscription
+{% endblock metatitle %}
+
+{% block main %}
+	<section class="container">
+
+		<h1>S'inscrire</h1>
+
+		<form method="POST" class="login-form">
+
+			<div class="form-group">
+				<label>Email</label>
+				<input type="email" name="_username" placeholder="Entrez votre email">
+			</div>
+
+			<div class="form-group">
+				<label for="username">Pseudonyme</label>
+                <input type="text" name="pseudonym" placeholder="Entrez un nom d'utilisateur">
+			</div>
+
+			<div class="form-group">
+				<label>Mot de passe</label>
+				<input type="password" name="_password" placeholder="Entrez un mot de passe">
+			</div>
+
+			<div>
+				<button type="submit">S'inscrire</button>
+			</div>
+		</form>
+	</section>
+{% endblock main %}

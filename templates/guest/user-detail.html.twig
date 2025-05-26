@@ -1,0 +1,20 @@
+{% extends 'profile/base.html.twig' %}
+
+{% block metatitle %}Détail de l'utilisateur
+{% endblock metatitle %}
+
+{% block main %}
+	<section class="profile-main-div">
+		<h2 class="nickname">{{ user.username }}</h2>
+
+		<div class="account-information">
+			{% if user.image %}
+				<div class="account-image"><img src="{{ asset('uploads/' ~ user.image) }}" alt="Photo de profil"></div>
+			{% endif %}
+			<h4 class="bio">Votre bio :</h4>
+			{# Le filtre nl2br (new line to break) convertit chaque retour à la ligne (\n) en balise <br> #}
+			<p>{{ user.bio | nl2br }}</p>
+		</div>
+
+	</section>
+{% endblock main %}

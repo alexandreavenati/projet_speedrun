@@ -1,0 +1,88 @@
+{% extends 'guest/base.html.twig' %}
+
+{% block metatitle %}Destiny 2 Speedrun : Archives
+{% endblock metatitle %}
+
+{% block main %}
+
+	{% include 'guest/partial/_game-info-section.html.twig' %}
+
+	<section class="guest-main-section">
+		<div class="main-div">
+			<div class="activity-submit">
+				<div class="activity-container">
+					{% for activity in activities %}
+						<a href="{{ path('home') }}?category={{ selectedCategoryId }}&activity={{ activity.id }}">
+							<button {% if selectedActivityId is defined and selectedActivityId == activity.id %} class="active" {% endif %}>
+								{{ activity.name }}</button>
+						</a>
+					{% endfor %}
+				</div>
+				<ul>
+					<li>
+						<form method="get" id="activity-filter-form">
+							<label for="activity-filter">Filtre</label>
+							<select name="category" id="activity-filter" onchange="this.form.submit()">
+								<option value="1" {% if selectedCategoryId == '1' %} selected {% endif %}>Raids</option>
+								<option value="2" {% if selectedCategoryId == '2' %} selected {% endif %}>Donjons</option>
+							</select>
+						</form>
+					</li>
+					<li>
+						<a href="#">Règles</a>
+					</li>
+					<li>
+						<a href="#">Historique</a>
+					</li>
+					{% if app.user %}
+						{# <li>
+																																					<a href="{{ path('form-submission') }}">
+																																						<button type="submit">Soumettre une vidéo</button>
+																																					</a>
+																																				</li> #}
+					{% else %}
+						<li>
+							<a href="{{ path('login') }}">
+								<button type="submit" class="btn-video-submit">Soummettre une vidéo</button>
+							</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+
+			<div class="ranking">
+				<table class="ranking-listing">
+					<thead class="ranking-header">
+						<tr>
+							<th>#</th>
+							<th class="players">Joueurs</th>
+							<th>Temps</th>
+							<th>Date</th>
+							<th>Plateforme</th>
+							<th>Expansion</th>
+						</tr>
+					</thead>
+
+					<tbody class="ranking-body">
+						{% for post in posts %}
+							<tr class="clickable-row" data-href="{{ path('show-speedrun', {'id': post.id}) }}">
+								<td>{{ loop.index }}</td>
+								<td>{{ post.user.username }}</td>
+								<td>{{ post.videoDuration | date('H:i:s')}}</td>
+								<td>{{ post.publicationDate|date('d/m/Y') }}</td>
+								<td>{{ post.platform }}</td>
+								<td>{{ post.expansion }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		{% include 'guest/partial/_side-boxes.html.twig' %}
+	</section>
+{% endblock main %}
+
+{% block script %}
+<script src="{{ asset('assets/js/clickable-rows.js') }}"></script>
+{% endblock script %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Voir les classements du speedrun de certaines activités du jeu vidéo Destiny 2">
+		<meta name="author" content="Avenati Alexandre">
+		<title>
+			{% block metatitle %}{% endblock metatitle %}
+		</title>
+        <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+	</head>
+
+	<body>
+
+        {% include 'guest/partial/_guest-header.html.twig' %}
+
+		<main class="container">
+			<section>
+				{% block messageFlash %}{% endblock messageFlash %}
+			</section>
+
+			{% block main %}{% endblock main %}
+		</main>
+
+        {% include 'guest/partial/_guest-footer.html.twig' %}
+
+		{% block script %}{% endblock script %}
+	</body>
+</html>
