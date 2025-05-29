@@ -1,0 +1,68 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block metatitle %}Modifier le Speedrun #{{ post.id }}{% endblock %}
+
+{% block main %}
+<section class="admin-main-div">
+    <h2>Modifier le speedrun #{{ post.id }}</h2>
+
+    <form method="POST" class="submit-post-form">
+        <div class="form-group">
+            <label for="title">Titre :</label>
+            <input type="text" id="title" name="title" value="{{ post.title }}">
+        </div>
+
+        <div class="form-group">
+            <label for="video_url">ID de la vidéo :</label>
+            <input type="text" id="video_url" name="video_url" value="{{ post.videoUrl }}">
+        </div>
+
+        <div class="form-group">
+            <label for="video_duration">Durée :</label>
+            <input type="time" id="video_duration" name="video_duration" value="{{ post.videoDuration|date('H:i:s') }}" step="1">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description :</label>
+            <textarea id="description" name="description">{{ post.description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="platform">Plateforme :</label>
+            <select id="platform" name="platform">
+                <option value="pc" {{ post.platform == 'pc' ? 'selected' : '' }}>🪟 PC</option>
+                <option value="xbox" {{ post.platform == 'xbox' ? 'selected' : '' }}>🅧 Xbox</option>
+                <option value="ps" {{ post.platform == 'ps' ? 'selected' : '' }}>🎮 PlayStation</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="expansion">Extension :</label>
+            <input type="text" id="expansion" name="expansion" value="{{ post.expansion }}">
+        </div>
+
+        <div class="form-group">
+            <label for="activity">Activité :</label>
+            <select id="activity" name="activity">
+                {% for category in categories %}
+                    <optgroup label="{{ category.name }}">
+                        {% for activity in category.activities %}
+                            <option value="{{ activity.id }}" {{ post.activity.id == activity.id ? 'selected' : '' }}>{{ activity.name }}</option>
+                        {% endfor %}
+                    </optgroup>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="verified">Statut de vérification :</label>
+            <select id="verified" name="verified">
+                <option value="1" {{ post.verified ? 'selected' : '' }}>✅ Vérifié</option>
+                <option value="0" {{ not post.verified ? 'selected' : '' }}>❌ Non vérifié</option>
+            </select>
+        </div>
+
+        <button type="submit">Mettre à jour</button>
+    </form>
+</section>
+{% endblock %}

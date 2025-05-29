@@ -60,6 +60,9 @@ class Post
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post')]
     private Collection $comments;
 
+    #[ORM\ManyToOne(inversedBy: 'postsVerified')]
+    private ?User $verifiedBy = null;
+
 
 
     public function __construct($title, $videoUrl, $videoDuration, $description, $platform, $expansion, $activity)
@@ -79,11 +82,37 @@ class Post
 
     public function getPlatformLabel(): string
     {
-        return match ($this->platform) {
+        return match (strtolower($this->platform)) {
             'pc' => '🪟 PC',
             'xbox' => '🅧 Xbox',
             'ps' => '🎮 PlayStation',
         };
+    }
+
+    public function updatePost(array $data, ?Activity $activity): static
+    {
+        // "??" = Si valeur est définie, utilise-la, sinon autre
+        $this->setTitle($data['title'] ?? $this->getTitle());
+        $this->setVideoUrl($data['video_url'] ?? $this->getVideoUrl());
+
+        if (!empty($data['video_duration'])) {
+            $duration = \DateTime::createFromFormat('H:i:s', $data['video_duration']);
+            if ($duration) {
+                $this->setVideoDuration($duration);
+            }
+        }
+
+        $this->setDescription($data['description'] ?? $this->getDescription());
+        $this->setPlatform($data['platform'] ?? $this->getPlatform());
+        $this->setExpansion($data['expansion'] ?? $this->getExpansion());
+        $this->setActivity($activity ?? $this->getActivity());
+
+        if (isset($data['verified'])) {
+            $this->setVerified($data['verified'] === '1');
+            $this->setVerificationUpdate(new \DateTime());
+        }
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -261,6 +290,18 @@ class Post
     public function setExpansion(?string $expansion): static
     {
         $this->expansion = $expansion;
+
+        return $this;
+    }
+
+    public function getVerifiedBy(): ?User
+    {
+        return $this->verifiedBy;
+    }
+
+    public function setVerifiedBy(?User $verifiedBy): static
+    {
+        $this->verifiedBy = $verifiedBy;
 
         return $this;
     }

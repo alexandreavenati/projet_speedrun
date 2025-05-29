@@ -26,6 +26,15 @@ class PostRepository extends ServiceEntityRepository
             ->getResult(); // Exécute la requête et retourne le résultat sous forme de tableau d'objets (souvent des entités)
     }
 
+    public function findUnverifiedOrNull(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.verified = false OR p.verified IS NULL')
+            ->orderBy('p.publicationDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Post[] Returns an array of Post objects
     //     */

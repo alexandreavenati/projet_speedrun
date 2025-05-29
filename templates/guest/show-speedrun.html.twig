@@ -69,11 +69,17 @@
 					<h4>Détails</h4>
 					<div class="box">
 						<p>Joueur(s) :</p>
-						<p><a href="{{ path('detail-user', {'id':post.user.id}) }}">{{ post.user.username }}</a></p>
+						<p>
+							<a href="{{ path('detail-user', {'id':post.user.id}) }}">{{ post.user.username }}</a>
+						</p>
 					</div>
 					<div class="box">
-						<p>Vérifié par :</p>
-						<p></p>
+						{% if post.verifiedBy %}
+							<p>Vérifié par :</p>
+							<p><a href="{{ path('detail-user', {'id': post.verifiedBy.id}) }}">{{ post.verifiedBy.username }}</a></p>
+						{% else %}
+							<p>Pas encore vérifié.</p>
+						{% endif %}
 					</div>
 					<div class="box">
 						<p>Soumis :</p>
@@ -86,7 +92,10 @@
 				<h3>Commentaires</h3>
 				{% for comment in comments %}
 					<div class="comment">
-						<p>{{ comment.user.username }} – <span>{{ comment.createdAt|date('d/m/Y H:i') }}</span></p>
+						<p>{{ comment.user.username }}
+							–
+							<span>{{ comment.createdAt|date('d/m/Y H:i') }}</span>
+						</p>
 						<p>{{ comment.content }}</p>
 					</div>
 				{% endfor %}

@@ -1,0 +1,47 @@
+<header>
+
+	<div class="header-logo"><img src="{{ asset('assets/img/logoD2.jpg') }}" alt="logo du site"></div>
+
+	<section class='top-nav-container'>
+		<nav class='header-nav'>
+			<ul class='nav-list'>
+				<li>
+					<a href="{{ path('home') }}">Accueil</a>
+				</li>
+				<li>
+					<a href="#">Activités</a>
+				</li>
+				<li>
+					<a href="#">Forum</a>
+				</li>
+				<li>
+					<a href="#">Aide</a>
+				</li>
+				{% if app.user %}
+					{% if is_granted('ROLE_ADMIN') %}
+						<li>
+							<a href="{{ path('home-admin') }}">Administrateur</a>
+						</li>
+					{% endif %}
+					<li>
+						<a href="{{ path('logout') }}">Se déconnecter</a>
+					</li>
+				{% endif %}
+					<li>
+						<form action="#" method="GET">
+							<input type="text" name="search" placeholder="Rechercher quelque chose...">
+							<button type="submit">Rechercher</button>
+						</form>
+					</li>
+				</ul>
+			</nav>
+		</section>
+
+		<div class="user-info">
+			{% if app.user %}
+				<span>Connecté en tant que
+					{{ app.user.username }}</span>
+			{% endif %}
+		</div>
+
+	</header>

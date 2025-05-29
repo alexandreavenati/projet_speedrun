@@ -62,6 +62,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user')]
     private Collection $comments;
 
+    /**
+     * @var Collection<int, Post>
+     */
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'verifiedBy')]
+    private Collection $postsVerified;
+
     public function __construct($email, $username)
     {
         // Initialise à vide les commentaires et les posts du nouvel utilisateurs
@@ -74,6 +80,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->username = $username;
 
         $this->createdAt = new \DateTime();
+        $this->postsVerified = new ArrayCollection();
     }
 
     public function updateProfile($username, $imageName, $bio) {
@@ -274,6 +281,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getPostsVerified(): Collection
+    {
+        return $this->postsVerified;
+    }
+
+    public function addPostsVerified(Post $postsVerified): static
+    {
+        if (!$this->postsVerified->contains($postsVerified)) {
+            $this->postsVerified->add($postsVerified);
+            $postsVerified->setVerifiedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostsVerified(Post $postsVerified): static
+    {
+        if ($this->postsVerified->removeElement($postsVerified)) {
+            // set the owning side to null (unless already changed)
+            if ($postsVerified->getVerifiedBy() === $this) {
+                $postsVerified->setVerifiedBy(null);
             }
         }
 

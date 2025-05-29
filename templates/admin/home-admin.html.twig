@@ -1,1 +1,21 @@
-<h1>Bonjour</h1>
+{% extends 'admin/base.html.twig' %}
+
+{% block metatitle %}Admin Dashboard
+{% endblock metatitle %}
+
+{% block main %}
+	<section class="admin-main-div">
+		<h1>Admin Dashboard</h1>
+
+		<div class="btn-group">
+			<p class="btn">
+				<a href="{{ path('verified-runs') }}">Run vérifiée</a>
+			</p>
+			<p class="btn">
+				<a href="{{ path('unverified-runs') }}">Run à vérifier</a>
+			</p>
+		</div>
+	</section>
+{% endblock main %}
+
+

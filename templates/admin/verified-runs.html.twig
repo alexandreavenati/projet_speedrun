@@ -1,0 +1,53 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block metatitle %}Speedruns Vérifiés - Admin{% endblock metatitle %}
+
+{% block main %}
+<section class="admin-main-div">
+    <h1>Liste des Speedruns Vérifiés</h1>
+
+    {% if posts is not empty %}
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Joueur</th>
+                    <th>Activité</th>
+                    <th>Temps</th>
+                    <th>Publié le</th>
+                    <th>Plateforme</th>
+                    <th>Expansion</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                    {% if post.verified %}
+                        <tr class="clickable-row" data-href="{{ path('show-speedrun', {'id': post.id}) }}">
+                            <td>{{ post.id }}</td>
+                            <td>
+                                <a href="{{ path('detail-user', {'id': post.user.id}) }}">{{ post.user.username }}</a>
+                            </td>
+                            <td>{{ post.activity.name }}</td>
+                            <td>{{ post.videoDuration | date('H:i:s') }}</td>
+                            <td>{{ post.publicationDate | date('d/m/Y') }}</td>
+                            <td>{{ post.platform }}</td>
+                            <td>{{ post.expansion }}</td>
+                            <td>
+                                <a href="{{ path('admin-edit-speedrun', {'id': post.id}) }}" class="btn btn-edit">✏️ Modifier</a>
+                                <a href="{{ path('admin-delete-speedrun', {'id': post.id}) }}" class="btn btn-delete">🗑️ Supprimer</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun speedrun vérifié pour le moment.</p>
+    {% endif %}
+</section>
+{% endblock main %}
+
+{% block script %}
+    <script src="{{ asset('assets/js/clickable-rows.js') }}"></script>
+{% endblock script %}
