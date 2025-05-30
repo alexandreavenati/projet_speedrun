@@ -20,5 +20,10 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\EventListener\NoCacheListener:
+        tags:
+            # Le tag kernel.event_listener indique que ce service est un écouteur d'événements
+            # L'événement écouté ici est 'kernel.response' (chaque fois qu'une réponse est créée)
+            - { name: kernel.event_listener, event: kernel.response }
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
